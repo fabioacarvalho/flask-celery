@@ -158,6 +158,36 @@ Agora, você pode acessar as seguintes rotas:
 - localhost:5000/executar : está rota vai gerar uma tarefa ID
 - localhost:5000/status/<task_id> : está rota vai exibir o status da tarefa.
 
+---
+
+### 📌 7. **Retornos API**
+Os retornos serão no seguinte formato:
+
+- Iniciando uma nova tarefa:
+```json
+{
+  "message": "Tarefa iniciada",
+  "task_id": "1d3dbbac-9096-44a4-9d74-a59276d0e928"
+}
+```
+
+- Tarefa pendente ou em execução:
+```json
+{
+  "status": "PENDING",
+  "task_id": "1f61ff70-eaa0-407b-89f2-1b9e71961935"
+}
+```
+
+- Tarefa concluida:
+
+```json
+{
+  "result": 30,
+  "status": "COMPLETED",
+  "task_id": "1d3dbbac-9096-44a4-9d74-a59276d0e928"
+}
+```
 
 ---
 
