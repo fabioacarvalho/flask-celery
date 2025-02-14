@@ -140,5 +140,3 @@ docker-compose up --build
 
 ### 🚀 **Conclusão**  
 Agora você tem um ambiente Flask + Celery rodando em Docker Compose. O **Flask** recebe as requisições, o **Celery** processa tarefas assíncronas e o **Redis** gerencia a fila.  
-
-Se precisar de algo mais avançado, como periodicidade com **Celery Beat**, posso te ajudar a configurar. 😊
