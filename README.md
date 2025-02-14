@@ -144,11 +144,20 @@ services:
 ---
 
 ### 📌 6. **Iniciar os Containers**
-Agora, reinicie os serviços para aplicar as mudanças:
+Agora, inicie os serviços para aplicar as mudanças:
 
 ```sh
 docker-compose up --build
 ```
+
+---
+
+### 📌 7. **Rotas**
+Agora, você pode acessar as seguintes rotas:
+
+- localhost:5000/executar : está rota vai gerar uma tarefa ID
+- localhost:5000/status/<task_id> : está rota vai exibir o status da tarefa.
+
 
 ---
 
