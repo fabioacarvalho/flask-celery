@@ -64,8 +64,9 @@ def processar_tarefa(x, y):
 Modifique `celery_worker.py` para garantir que as tarefas sejam importadas corretamente:
 
 ```python
+from flask import Flask, jsonify
+from celery.result import AsyncResult
 from celery import Celery
-from flask import Flask
 
 def make_celery(app):
     celery = Celery(
@@ -85,14 +86,25 @@ app.config.update(
 
 celery = make_celery(app)
 
-# Importar tarefas corretamente
-import tasks  
+import tasks
 
 @app.route('/executar')
 def executar():
-    from tasks import processar_tarefa  # Importação no escopo correto
+    from tasks import processar_tarefa
     task = processar_tarefa.delay(10, 20)  # Executa a tarefa em background
-    return f'Tarefa iniciada: {task.id}', 202
+    return jsonify({"message": "Tarefa iniciada", "task_id": task.id}), 202
+
+@app.route('/status/<task_id>')
+def status(task_id):
+    task_result = AsyncResult(task_id, app=celery)
+    if task_result.state == "SUCCESS":
+        return jsonify({"task_id": task_id, "status": "COMPLETED", "result": task_result.result}), 200
+    elif task_result.state == "PENDING":
+        return jsonify({"task_id": task_id, "status": "PENDING"}), 202
+    elif task_result.state == "FAILURE":
+        return jsonify({"task_id": task_id, "status": "FAILED"}), 500
+    else:
+        return jsonify({"task_id": task_id, "status": task_result.state}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
